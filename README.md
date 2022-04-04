@@ -18,6 +18,6 @@
 			Finder input
 			Creator input
 		Game board
-		Player
+		Player (Either might be a computer playing with a person)
 			Finder
 			Creator
