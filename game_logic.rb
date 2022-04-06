@@ -3,6 +3,29 @@ require_relative 'mastermind.rb'
 class GameLogic
 
   include Shared
+
+  def initialize
+    @finder_color = ""
+    @creator_color = ""
+    @against = ""
+    @number_of_tries = 0
+    @correct_place = 0
+    @correct_color = 0
+  end
+
+  def to_arr word
+    arr = []
+    word.each_char do |item|
+      arr.push(item)
+    end
+    word = []
+    word = arr
+  end
+
+  def convert
+    @finder_color = to_arr @finder_color
+    @creator_color = to_arr @creator_color
+  end
   
   def pos_check
     counter = 0
@@ -10,22 +33,22 @@ class GameLogic
       @correct_place += 1 if (@creator_color[counter] == @finder_color[counter])
       counter += 1
     end
+    @correct_place
   end
 
   def color_check
-    temp = creator_color
-    finder_color.each_char do |f_color|
-      temp.each_char do |c_color|
+    convert()
+    temp = @creator_color
+    @finder_color.each_with_index do |f_color,f_index|
+      @creator_color.each_with_index do |c_color, c_index|
         if (f_color == c_color)
-          correct_color += 1
-          f_color = " "
-          c_color = " "
+          @correct_color += 1
+          @finder_color[f_index] = " "
+          @creator_color[c_index] = " "
         end
       end
     end
+    @correct_color
   end
 
 end
-
-x = GameLogic.new()
-puts x.pos_check
