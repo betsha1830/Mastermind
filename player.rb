@@ -13,23 +13,27 @@ class Player < GameLogic
 
   def computer_creator
     count = 0
+    index = 0
     @no_repeat = true
+    random_number = ""
     if (@no_repeat == true)
+      random_number = rand(1..6).to_s
       while count < 4
-        random_num = rand(1..6).to_s
-        puts count.to_s + random_num
-        if !(@creator_color.empty?)
-          @creator_color.each_char do |char|
-            if (char == random_num)
-              random_num = rand(1..6).to_s
-            else 
-              @creator_color += random_num
+        if @creator_color == ""
+          random_number= rand(1..6).to_s
+          @creator_color += random_number
+          count += 1
+        else
+          if (@creator_color[index] == random_number)
+            random_number = rand(1..6).to_s
+            index = 0
+          else 
+            index += 1
+            if (@creator_color[index] == nil && @creator_color.length < 4)
+              @creator_color += random_number
               count += 1
             end
           end
-        else
-          @creator_color += random_num
-          count += 1
         end
       end
     else 
