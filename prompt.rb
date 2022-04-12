@@ -18,6 +18,8 @@ class Prompt < GameLogic
     input = gets.chomp.to_i
     until input == 1 || input == 2
       puts "Please enter a correct input.\n1. Finder\n2. Creator"
+      input = gets.chomp
+      input.to_i
     end
     if input == 1
       @type = 1
@@ -50,7 +52,8 @@ class Prompt < GameLogic
       puts "Please enter an appropriate response."
     end
     if input == "y" 
-
+      @no_repeat = false
+    else @no_repeat = true
     end
   end
 
