@@ -20,7 +20,7 @@ class Message
   end
 
   def repeat_color
-    if @no_repeat == "y"
+    if @no_repeat == true
       puts "Please input a unique color set"
     else 
       puts "Please input a color set"
