@@ -4,11 +4,14 @@ class GameLogic
 
   include Shared
 
-  def initialize
-    @finder_color = ""
-    @creator_color = ""
-    @against = ""
-    @number_of_tries = 0
+  def initialize (finder_color, creator_color, number_of_tries, against, length, type, no_repeat)
+    @finder_color = finder_color
+    @creator_color = finder_color
+    @no_repeat = no_repeat
+    @length = length
+    @against = against    #1. Computer 2. Friend
+    @type = type       #1. Finder #2. Creator
+    @number_of_tries = number_of_tries
     @correct_place = 0
     @correct_color = 0
   end
