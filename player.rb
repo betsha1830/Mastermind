@@ -7,6 +7,16 @@ class Player < GameLogic
   #   @creator = creator
   # end
 
+  def player_creator
+    
+    
+
+  end
+
+  def player_finder
+
+  end
+
   def computer_finder
 
   end
@@ -14,9 +24,8 @@ class Player < GameLogic
   def computer_creator
     count = 0
     index = 0
-    @no_repeat = true
     random_number = ""
-    if (@no_repeat == true)
+    if @no_repeat == true
       random_number = rand(1..6).to_s
       while count < 4
         if @creator_color == ""
@@ -44,7 +53,6 @@ class Player < GameLogic
     end
     @creator_color
   end
-  
 end
 
 x = Player.new
