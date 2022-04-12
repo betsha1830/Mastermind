@@ -50,6 +50,7 @@ class Prompt < GameLogic
     input = gets.chomp
     until input == "y" || input == "n"
       puts "Please enter an appropriate response."
+      input = gets.chomp
     end
     if input == "y" 
       @no_repeat = false
