@@ -27,6 +27,10 @@ class Message
     end
   end
 
+  def creator_color
+    puts "Please input a color to be guessed"
+  end
+
   def guess
     puts "Please enter your guess"
   end
