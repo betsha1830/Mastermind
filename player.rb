@@ -7,14 +7,54 @@ class Player < GameLogic
   #   @creator = creator
   # end
 
-  def player_creator
-    
-    
+  def playing_against
+    if (@against == 1 && @type == 1)
+      computer_finder
+    elsif (@against == 2 && @type == 1)
+      player_finder
+    elsif (@against == 1 && @type == 2)
+      computer_creator
+    else
+      player_creator
+    end
+  end
 
+  def player_creator
+    input = gets.chomp
+    until input == 4
+      puts "Please input a length of 4 characters."
+      input = gets.chomp
+    end
+    index = 0
+    while index < 4
+      if !(input[index].to_i <= 6 && input[index].to_i >= 1)
+        puts "Please input a number that is between 1 and 6."
+        input = gets.chomp
+      else index += 1
+      end
+    end
+    if @no_repeat == true
+
+    else
+      @creator_color = input
+    end
   end
 
   def player_finder
-
+    input = gets.chomp
+    until input.length == 4
+      puts "Please enter a guess that contains 4 colors."
+      input = gets.chomp
+    end
+    index = 0
+    while index < 4
+      if !(input[index].to_i <= 6 && input[index].to_i >= 1)
+        puts "Please input a number that is between 1 and 6."
+        input = gets.chomp
+      else index += 1
+      end
+    end
+    @finder_color = input
   end
 
   def computer_finder
@@ -51,7 +91,6 @@ class Player < GameLogic
         count += 1
       end
     end
-    @creator_color
   end
 end
 
