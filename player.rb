@@ -26,6 +26,7 @@ class Player < GameLogic
       input = gets.chomp
     end
     index = 0
+    inner_index = 1
     while index < 4
       if !(input[index].to_i <= 6 && input[index].to_i >= 1)
         puts "Please input a number that is between 1 and 6."
@@ -34,7 +35,15 @@ class Player < GameLogic
       end
     end
     if @no_repeat == true
-
+      while index < 4 && inner_index <= 4
+        if input[index] == input[inner_index]
+          puts "Please input a non-repeating number combination."
+          input = gets.chomp
+        else
+          index += 1
+          inner_index += 1
+        end
+      end
     else
       @creator_color = input
     end
