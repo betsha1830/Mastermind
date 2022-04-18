@@ -1,6 +1,4 @@
-require_relative "game_logic.rb"
-
-class Prompt < GameLogic
+class Prompt
 
   def against_prompt
     input = gets.chomp.to_i
@@ -9,11 +7,7 @@ class Prompt < GameLogic
       input = gets.chomp
       input.to_i
     end
-    if input == 1
-      @against = 1
-    else 
-      @against = 2
-    end
+    input == 1 ? against = 1 : against = 2
   end
 
   def type_prompt
@@ -23,11 +17,7 @@ class Prompt < GameLogic
       input = gets.chomp
       input.to_i
     end
-    if input == 1
-      @type = 1
-    else 
-      @type = 2
-    end
+    input == 1 ? type = 1 : type = 2
   end
 
   def repeat_color_prompt
@@ -36,9 +26,6 @@ class Prompt < GameLogic
       puts "Please enter an appropriate response."
       input = gets.chomp
     end
-    if input == "y" 
-      @no_repeat = false
-    else @no_repeat = true
-    end
+    input == "y" ? no_repeat = false : no_repeat = true
   end
 end
