@@ -67,7 +67,14 @@ class Player < GameLogic
   end
 
   def computer_finder
-
+    index = 0
+    random_number = 0
+    @finder_color = ""
+    while index < 4
+      random_number = rand(1..6).to_s
+      @finder_color += random_number
+      index += 1
+    end
   end
 
   def computer_creator
@@ -102,6 +109,3 @@ class Player < GameLogic
     end
   end
 end
-
-x = Player.new
-puts x.computer_creator
