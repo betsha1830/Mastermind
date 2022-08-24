@@ -3,7 +3,26 @@ class MasterMind
     def initialize 
         @random_color = random_color_generator
         @user_input = user_input
+        # play
     end
+
+    # def play
+    #     num_of_guesses = 0
+    #     until won? || num_of_guesses == 12
+    #         
+    #         if valid_input?
+
+                    
+    #             color_checker
+                
+    #         else 
+    #             puts "Please enter a valid input"
+    #         end
+    #     end
+    #     if won?
+    #         puts "Congratulations you've guessed all the combinations correctly."
+    #     end
+    # end
 
     def string_to_array (string)
         arr = []
@@ -34,19 +53,15 @@ class MasterMind
     def color_checker
         correct_color = 0
         temp_random_color = string_to_array(@random_color)
-        if valid_input?
-            temp_user_input = string_to_array(@user_input)
-            temp_random_color.each_with_index do |item, index|
-                temp_user_input.each_with_index do |letter, pos|
-                    if temp_user_input[pos] == temp_random_color[index] 
-                        temp_random_color[index] = "x"
-                        temp_user_input[pos] = "y"
-                        correct_color += 1
-                    end
+        temp_user_input = string_to_array(@user_input)
+        temp_random_color.each_with_index do |item, index|
+            temp_user_input.each_with_index do |letter, pos|
+                if temp_user_input[pos] == temp_random_color[index] 
+                    temp_random_color[index] = "x"
+                    temp_user_input[pos] = "y"
+                    correct_color += 1
                 end
             end
-        else 
-            puts "Please enter a valid input"
         end
         correct_color
     end
@@ -55,7 +70,6 @@ class MasterMind
         correct_pos = 0
         temp_random_color = string_to_array(@random_color)
         temp_user_input = string_to_array(@user_input)
-
         count = 0
         while count < 4
             if temp_random_color[count] == temp_user_input[count]
@@ -68,7 +82,34 @@ class MasterMind
         correct_pos
     end
 
+    def won?
+        pos_checker == 4
+    end
+
+    def matching_status
+        output = ""
+        if pos_checker == 4
+            output += "XXXX"
+        end
+        if pos_checker > 0
+            until pos_checker == output.length
+                output += "X"
+            end
+        end
+        if color_checker > pos_checker
+            until color_checker == output.length
+                output += "O"
+            end
+        end
+        if output.length < 4
+            until output.length == 4
+                output += "-"
+            end
+        end
+        output
+    end
+
 end
 
 mind = MasterMind.new
-puts mind.pos_checker
+puts mind.matching_status
