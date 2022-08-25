@@ -1,9 +1,16 @@
 class MasterMind
 
     def initialize 
-        @random_color = random_color_generator
-        @user_input = user_input
+        
         # play
+    end
+
+    def input_to_int
+        input = gets.chomp.to_i
+    end
+
+    def chomp_string
+        input = gets.chomp
     end
 
     # def play
@@ -24,6 +31,16 @@ class MasterMind
     #     end
     # end
 
+    def user_finder?
+        puts "What would like to play as? \n\t1. Finder\n\t2. Creator"
+        input_to_int == 1 ? @player_finder = true : @player_finder = false
+    end
+
+    def user_input_color
+        puts "Please enter your color combinations"
+        chomp_string
+    end
+
     def string_to_array (string)
         arr = []
         string.each_char do |char|
@@ -33,20 +50,20 @@ class MasterMind
     end
 
     def random_color_generator
-        random_color = ""
+        @random_color = ""
         random_num = Random.new()
-        until random_color.size == 4
-            random_color += (random_num.rand(6) + 1).to_s
+        until @random_color.size == 4
+            @random_color += (random_num.rand(6) + 1).to_s
         end
-        random_color
+        @random_color
     end
 
     def user_input
         puts "Please enter a guess"
-        input = gets.chomp.to_s
+        chomp_string
     end
 
-    def valid_input?
+    def valid_input?()
         @user_input.to_i.between?(1111,6666)
     end
 
@@ -106,4 +123,4 @@ class MasterMind
 end
 
 mind = MasterMind.new
-puts mind.matching_status
+puts mind.pos_checker
