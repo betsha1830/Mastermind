@@ -87,24 +87,18 @@ class MasterMind
     end
 
     def matching_status
-        output = ""
-        if pos_checker == 4
-            output += "XXXX"
+        output = "----"
+        temp_pos_count = pos_checker
+        temp_color_count = color_checker
+        count = pos_checker
+        until temp_pos_count == 0
+            output[temp_pos_count-1] = "X" 
+            temp_pos_count -= 1
         end
-        if pos_checker > 0
-            until pos_checker == output.length
-                output += "X"
-            end
-        end
-        if color_checker > pos_checker
-            until color_checker == output.length
-                output += "O"
-            end
-        end
-        if output.length < 4
-            until output.length == 4
-                output += "-"
-            end
+        until pos_checker == temp_color_count
+            output[temp_color_count-1] = "O"
+            temp_color_count -= 1
+            count += 1
         end
         output
     end
