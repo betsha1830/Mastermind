@@ -26,7 +26,7 @@ class MasterMind
             puts matching_status
             num_of_guesses += 1
           else
-            puts "Please enter a valid input"
+            puts 'Please enter a valid input'
           end
         end
         if won?
@@ -36,22 +36,25 @@ class MasterMind
         end
       else
         @user_color = user_input_color
+        @computer_guess = ''
         if valid_input?(@user_color)
           # binding.pry
           until won? || num_of_guesses == 12
-            puts "Computer guessed #{computer_guess}"
-            matching_status
+            puts @computer_guess = random_color_generator
+            puts "Computer guessed #{@computer_guess = random_color_generator}"
+            puts matching_status
             num_of_guesses += 1
           end
         else
-          puts "Please enter a valid input"
+          puts 'Please enter a valid input'
         end
       end
-      # if won? && @player_finder?
-      #   puts "Congratulations. You've cracked the code"
-      # elsif won? && !@player_finder?
-      #   puts "You're has been cracked"
-      # end
+
+      if won? && !@player_finder
+        puts "You're code has been cracked"
+      elsif !won? && !@player_finder
+        puts "You've got a tough code to crack. You win!"
+      end
   end
 
   def user_finder?
@@ -62,10 +65,6 @@ class MasterMind
   def user_input_color
     puts 'Please enter your color combinations to be guessed by the computer'
     chomp_string
-  end
-
-  def computer_guess
-    random_color = random_color_generator
   end
 
   def string_to_array(string)
@@ -94,15 +93,29 @@ class MasterMind
 
   def color_checker
     correct_color = 0
-    temp_random_color = string_to_array(@random_color)
-    temp_user_input = string_to_array(@guess_input)
-    temp_random_color.each_with_index do |_item, index|
-      temp_user_input.each_with_index do |_letter, pos|
-        next unless temp_user_input[pos] == temp_random_color[index]
-
-        temp_random_color[index] = 'x'
-        temp_user_input[pos] = 'y'
-        correct_color += 1
+    if @player_finder
+      temp_random_color = string_to_array(@random_color)
+      temp_user_input = string_to_array(@guess_input)
+      temp_random_color.each_with_index do |item, index|
+          temp_user_input.each_with_index do |letter, pos|
+              if temp_user_input[pos] == temp_random_color[index] 
+                  temp_random_color[index] = "x"
+                  temp_user_input[pos] = "y"
+                  correct_color += 1
+              end
+          end
+      end
+    else
+      temp_random_color = string_to_array(@user_color)
+      temp_user_input = string_to_array(@computer_guess)
+      temp_random_color.each_with_index do |item, index|
+          temp_user_input.each_with_index do |letter, pos|
+              if temp_user_input[pos] == temp_random_color[index] 
+                  temp_random_color[index] = "x"
+                  temp_user_input[pos] = "y"
+                  correct_color += 1
+              end
+          end
       end
     end
     correct_color
@@ -110,15 +123,29 @@ class MasterMind
 
   def pos_checker
     correct_pos = 0
-    temp_random_color = string_to_array(@random_color)
-    temp_user_input = string_to_array(@guess_input)
-    count = 0
-    while count < 4
-      if temp_random_color[count] == temp_user_input[count]
-        correct_pos += 1
+    if @player_finder
+      temp_random_color = string_to_array(@random_color)
+      temp_user_input = string_to_array(@guess_input)
+      count = 0
+      while count < 4
+        if temp_random_color[count] == temp_user_input[count]
+          correct_pos += 1
+          count += 1
+        else
+          count += 1
+        end
+      end
+    else
+      temp_random_color = string_to_array(@user_color)
+      temp_user_input = string_to_array(@computer_guess)
+      count = 0
+      while count < 4
+        if temp_random_color[count] == temp_user_input[count]
+          correct_pos += 1
+          count += 1
+        end
         count += 1
       end
-      count += 1
     end
     correct_pos
   end
@@ -131,7 +158,6 @@ class MasterMind
     output = '----'
     temp_pos_count = pos_checker
     temp_color_count = color_checker
-    count = pos_checker
     until temp_pos_count == 0
       output[temp_pos_count - 1] = 'X'
       temp_pos_count -= 1
@@ -139,7 +165,6 @@ class MasterMind
     until pos_checker == temp_color_count
       output[temp_color_count - 1] = 'O'
       temp_color_count -= 1
-      count += 1
     end
     output
   end
