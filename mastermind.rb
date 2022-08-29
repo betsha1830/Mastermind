@@ -1,8 +1,9 @@
+require 'pry-byebug'
+
 class MasterMind
   def initialize
-    # play
-	random_color_generator
-	# user_input
+    @random_color = random_color_generator
+    play
   end
 
   def input_to_int
@@ -13,34 +14,57 @@ class MasterMind
     gets.chomp
   end
 
-  # def play
-  #     num_of_guesses = 0
-  #     until won? || num_of_guesses == 12
-  #
-  #         if valid_input?
-
-  #             color_checker
-
-  #         else
-  #             puts "Please enter a valid input"
-  #         end
-  #     end
-  #     if won?
-  #         puts "Congratulations you've guessed all the combinations correctly."
-  #     end
-  # end
+  def play
+    num_of_guesses = 0
+    @player_finder = user_finder?
+      if @player_finder
+        until won? || num_of_guesses == 12
+          binding.pry
+          temp_input = user_input
+          if valid_input?(temp_input)
+            puts matching_status
+            num_of_guesses += 1
+          else
+            puts "Please enter a valid input"
+          end
+        end
+        if won?
+          puts "Congratulations. You've guessed it correctly with #{num_of_guesses} tries."
+        else
+          puts "All your guesses were incorrect. The secret color was #{@random_color}"
+        end
+      else
+        @user_color = user_input_color
+        if valid_input?(@user_color)
+          binding.pry
+          until won? || num_of_guesses == 12
+            puts "Computer guessed #{computer_guess}"
+            matching_status
+          end
+        else
+          puts "Please enter a valid input"
+        end
+      end
+      # if won? && @player_finder?
+      #   puts "Congratulations. You've cracked the code"
+      # elsif won? && !@player_finder?
+      #   puts "You're has been cracked"
+      # end
+  end
 
   def user_finder?
     puts "What would like to play as? \n\t1. Finder\n\t2. Creator"
-    @player_finder = input_to_int == 1
+    input_to_int == 1 ? true : false
   end
 
   def user_input_color
-    puts 'Please enter your color combinations'
+    puts 'Please enter your color combinations to be guessed by the computer'
     chomp_string
   end
 
-  def computer_guess; end
+  def computer_guess
+    random_color = random_color_generator
+  end
 
   def string_to_array(string)
     arr = []
@@ -51,10 +75,10 @@ class MasterMind
   end
 
   def random_color_generator
-    @random_color = ''
+    random_color = ''
     random_num = Random.new
-    @random_color += (random_num.rand(6) + 1).to_s until @random_color.size == 4
-    @random_color
+    random_color += (random_num.rand(6) + 1).to_s until random_color.size == 4
+    random_color
   end
 
   def user_input
@@ -62,8 +86,8 @@ class MasterMind
     chomp_string
   end
 
-  def valid_input?
-    user_input.to_i.between?(1111, 6666)
+  def valid_input?(input)
+    input.to_i.between?(1111, 6666)
   end
 
   def color_checker
@@ -94,7 +118,6 @@ class MasterMind
       end
       count += 1
     end
-    puts @random_color.to_s
     correct_pos
   end
 
@@ -121,4 +144,3 @@ class MasterMind
 end
 
 mind = MasterMind.new
-puts mind.pos_checker
