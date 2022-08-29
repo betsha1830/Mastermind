@@ -3,6 +3,7 @@ require 'pry-byebug'
 class MasterMind
   def initialize
     @random_color = random_color_generator
+    @guess_input = ""
     play
   end
 
@@ -19,9 +20,9 @@ class MasterMind
     @player_finder = user_finder?
       if @player_finder
         until won? || num_of_guesses == 12
-          binding.pry
-          temp_input = user_input
-          if valid_input?(temp_input)
+          # binding.pry
+          @guess_input = user_input
+          if valid_input?(@guess_input)
             puts matching_status
             num_of_guesses += 1
           else
@@ -36,10 +37,11 @@ class MasterMind
       else
         @user_color = user_input_color
         if valid_input?(@user_color)
-          binding.pry
+          # binding.pry
           until won? || num_of_guesses == 12
             puts "Computer guessed #{computer_guess}"
             matching_status
+            num_of_guesses += 1
           end
         else
           puts "Please enter a valid input"
@@ -83,7 +85,7 @@ class MasterMind
 
   def user_input
     puts 'Please enter a guess'
-    chomp_string
+    @guess_input = chomp_string
   end
 
   def valid_input?(input)
@@ -93,7 +95,7 @@ class MasterMind
   def color_checker
     correct_color = 0
     temp_random_color = string_to_array(@random_color)
-    temp_user_input = string_to_array(user_input)
+    temp_user_input = string_to_array(@guess_input)
     temp_random_color.each_with_index do |_item, index|
       temp_user_input.each_with_index do |_letter, pos|
         next unless temp_user_input[pos] == temp_random_color[index]
@@ -109,7 +111,7 @@ class MasterMind
   def pos_checker
     correct_pos = 0
     temp_random_color = string_to_array(@random_color)
-    temp_user_input = string_to_array(user_input)
+    temp_user_input = string_to_array(@guess_input)
     count = 0
     while count < 4
       if temp_random_color[count] == temp_user_input[count]
